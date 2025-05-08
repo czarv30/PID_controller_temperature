@@ -1,19 +1,18 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-use IEEE.fixed_pkg.all;
 
 entity pid_top is
     Port ( clk : in STD_LOGIC;
            reset : in STD_LOGIC;
-           target : in STD_LOGIC_VECTOR (3 downto 0);
+           target : in STD_LOGIC_VECTOR(3 downto 0);
            led : out STD_LOGIC);
 end pid_top;
 
 architecture Behavioral of pid_top is
-    signal error_signal : sfixed(7 downto -8) := to_sfixed(0.0, 7, -8);
-    signal pterm_signal : sfixed(7 downto -8) := to_sfixed(0.0, 7, -8);
-    signal current_signal : sfixed(7 downto -8) := to_sfixed(0.0, 7, -8);
+    signal error_signal : signed(15 downto 0);
+    signal pterm_signal : signed(15 downto 0);
+    signal current_signal : signed(15 downto 0);
     signal enable : std_logic := '0';
     signal counter : unsigned(16 downto 0) := (others => '0');
     constant CLK_DIV : integer := 100000;

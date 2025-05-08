@@ -6,26 +6,26 @@ use IEEE.fixed_pkg.ALL;
 entity plant2 is
     Port ( reset : in STD_LOGIC;
            clk : in STD_LOGIC;
-           temp_out : out sfixed(7 downto -8);
-           control_in : in sfixed(7 downto -8);
+           temp_out : out signed(15 downto 0);
+           control_in : in signed(15 downto 0);
            enable : in STD_LOGIC);
 end plant2;
 
 architecture Behavioral of plant2 is
-    signal tout_reg : sfixed(7 downto -8) := to_sfixed(0, 7, -8);
-    constant TPARAMETER : sfixed(7 downto -8) := to_sfixed(100, 7, -8);
+    signal   tout_reg   : signed(15 downto 0);
+    constant TPARAMETER : signed(15 downto 0) := to_signed(25600,16);
 begin
     process(clk, reset)
-        variable diff : sfixed(7 downto -8);
-        variable delta : sfixed(7 downto -8);
+        variable diff  : signed(15 downto 0);
+        variable delta : signed(15 downto 0);
     begin
         if reset = '1' then
-            tout_reg <= to_sfixed(0.0, 7, -8);
+            tout_reg <= (others => '0');
         elsif rising_edge(clk) then
             if enable = '1' then
                 diff := TPARAMETER - tout_reg;
-                delta := to_sfixed(to_real(control_in) * to_real(diff), 15, -16) / to_sfixed(128.0, 7, -8);
-                delta := resize(delta, 7, -8);
+                delta := resize(shift_right(control_in*diff,8),16); 
+                -- Shifting right by 8 to maintain Q8.8
                 tout_reg <= tout_reg + delta;
             end if;
         end if;
