@@ -3,17 +3,18 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity pid_top is
-    Port ( clk : in STD_LOGIC;
-           reset : in STD_LOGIC;
-           target : in STD_LOGIC_VECTOR(3 downto 0);
-           led : out STD_LOGIC);
+    Port ( clk    : in  STD_LOGIC;
+           reset  : in  STD_LOGIC;
+           target : in  STD_LOGIC_VECTOR (3 downto 0);
+           led    : out STD_LOGIC; 
+           enable : out STD_LOGIC                       )  ;
 end pid_top;
 
 architecture Behavioral of pid_top is
     signal error_signal : signed(15 downto 0);
     signal pterm_signal : signed(15 downto 0);
     signal current_signal : signed(15 downto 0);
-    signal enable : std_logic := '0';
+    -- signal enable : std_logic := '0';
     signal counter : unsigned(16 downto 0) := (others => '0');
     constant CLK_DIV : integer := 100000;
 begin
