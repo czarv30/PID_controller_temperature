@@ -8,12 +8,14 @@ entity pid_top_tb is
 end pid_top_tb;
 
 architecture Behavioral of pid_top_tb is
--- Signals
-    signal clk    : STD_LOGIC := '0';
-    signal reset  : STD_LOGIC := '0';
-    signal target : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
-    signal led    : STD_LOGIC;
-    signal enable : std_logic;
+    signal clk            : STD_LOGIC := '0';
+    signal reset          : STD_LOGIC := '0';
+    signal target         : STD_LOGIC_VECTOR(3 downto 0) := (others => '0');
+    signal led            : STD_LOGIC;
+    signal enable         : std_logic;
+    signal error_signal   : signed(15 downto 0);
+    signal pterm_signal   : signed(15 downto 0);
+    signal current_signal : signed(15 downto 0);
 
     -- Clock period (100 MHz)
     constant CLK_PERIOD : time := 10 ns;
@@ -21,7 +23,16 @@ architecture Behavioral of pid_top_tb is
 begin
     -- Instantiate the DUT using entity syntax
     uut: entity work.pid_top(Behavioral)
-        port map (clk => clk, enable => enable, reset => reset, target => target, led => led);
+        port map (
+            clk => clk, 
+            current_signal => current_signal, 
+            enable => enable, 
+            error_signal => error_signal, 
+            pterm_signal => pterm_signal,
+            reset => reset, 
+            target => target, 
+            led => led
+        );
 
     -- Clock generation
     clk_process: process
@@ -44,16 +55,6 @@ begin
         -- Test 1: target = 4
         target <= "0100";
         wait for 50 ms;
-
-        -- Test 2: target = 8
-        -- target <= "1000";
-        -- wait for 50 ms;
-
-        -- Test 3: target = 2
-        -- target <= "0010";
-        -- wait for 50 ms;
-
-        -- End simulation
         wait;
     end process;
     
@@ -73,7 +74,7 @@ begin
         -- Log data whenever enable is high
         while true loop
             wait until rising_edge(clk);
-            if uut.enable = '1' then
+            if enable = '1' then
                 sim_time := now;  -- Get current simulation time
                 write(line_buffer, sim_time / 1 ns);  -- Time in ns
                 write(line_buffer, string'(","));
@@ -83,13 +84,13 @@ begin
                 write(line_buffer, string'(","));
                 
                 -- Convert Q8.8 signals to decimal for easier plotting
-                write(line_buffer, to_integer(uut.error_signal) / 256.0);  -- error_signal in decimal
+                write(line_buffer, real(to_integer(error_signal)) / 256.0);  -- error_signal in decimal
                 write(line_buffer, string'(","));
                 
-                write(line_buffer, to_integer(uut.pterm_signal) / 256.0);  -- pterm_signal in decimal
+                write(line_buffer, real(to_integer(pterm_signal)) / 256.0);  -- pterm_signal in decimal
                 write(line_buffer, string'(","));
                 
-                write(line_buffer, to_integer(uut.current_signal) / 256.0);  -- current_signal in decimal
+                write(line_buffer, real(to_integer(current_signal)) / 256.0);  -- current_signal in decimal
                 
                 writeline(file_handler, line_buffer);
             end if;
