@@ -8,9 +8,9 @@ entity pid_top is
            target         : in  STD_LOGIC_VECTOR (3 downto 0);
            led            : out STD_LOGIC; 
            enable         : out STD_LOGIC;                       
-           error_signal   : out signed(15 downto 0); 
-           pterm_signal   : out signed(15 downto 0);
-           current_signal : out signed(15 downto 0));
+           error_signal   : out signed(15 downto 0);    -- these three signals below are
+           pterm_signal   : out signed(15 downto 0);    -- exposed in order to export the
+           current_signal : out signed(15 downto 0));   -- data at the testbench. 
 end pid_top;
 
 architecture Behavioral of pid_top is

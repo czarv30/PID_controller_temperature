@@ -1,6 +1,7 @@
 import os
 import shutil
 from pathlib import Path
+import subprocess
 
 exclusions = ['plant.vhd']
 additions = [r'C:\Users\Comanche\Dropbox\documents\jupyter_notebooks\README.ipynb']
@@ -20,3 +21,19 @@ for file in additions:
 		shutil.copy2(file, copy_to_dir)
 	else:
 		print(f"File {file} does not exist.")
+
+# Now run the process to update the ReadMe file.
+command = [
+	"python",
+	"-m",                   
+	"nbconvert",            
+	"--to", "markdown",     
+	'README.ipynb',         
+	"--output", 
+	'README.md' 
+]
+result = subprocess.run(command, check=True, capture_output=True, text=True)
+if result.stdout:
+	print("nbconvert output:\n", result.stdout)
+if result.stderr: # nbconvert sometimes puts informational messages in stderr
+    print("nbconvert messages (stderr):\n", result.stderr)

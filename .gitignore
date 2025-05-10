@@ -1,2 +1,4 @@
 *.un~
 *.py~
+.ipynb_checkpoints/
+.virtual_documents/
