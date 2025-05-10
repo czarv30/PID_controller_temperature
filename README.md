@@ -10,12 +10,12 @@ graph LR
     %% --- Define all nodes first ---
     N_Target["target<br> (4bit)"]
     %% Using Sigma for the summing junction N_SumError
-    N_SumError((Σ))
+    N_SumError((S))
     N_P["pid_pterm.vhd (Kp)"]
     N_I["pid_iterm.vhd (Ki)"]
     N_D["pid_dterm.vhd (Kd)"]
     %% Using Sigma for the summing junction N_SumPID
-    N_SumPID((Σ))
+    N_SumPID((S))
     %% Matched Plant node text to your screenshot
     N_Plant["plant2.vhd"]
 
