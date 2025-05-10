@@ -31,6 +31,7 @@ graph LR
 
     N_SumPID --control_in--> N_Plant
     N_Plant --(-)--> N_SumError
+```
 
 ## Phase 1: P-term only. 
 We develop all the code to run a p-only controller. Signals are exposed at the top level to export signals to csv, plotted below.
