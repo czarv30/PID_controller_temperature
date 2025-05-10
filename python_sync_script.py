@@ -4,7 +4,6 @@ from pathlib import Path
 import subprocess
 
 exclusions = ['plant.vhd']
-additions = [r'C:\Users\Comanche\Dropbox\documents\jupyter_notebooks\README.ipynb']
 
 # First copy the vhd files of interest. 
 copy_to_dir = Path(r'C:\prog\repos\PID_temperature_controller')
