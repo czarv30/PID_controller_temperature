@@ -15,7 +15,7 @@ def create_plot(df_polars, zoom_x_start, width=11, height=5, y_zoom_limits=(-0.0
     detail_data_pd = detail_data_pl.to_pandas()
 
     # Plot 1: Overview
-    sns.scatterplot(data=overview_data_pd, x='time_ms', y='error_signal', ax=axes[0], alpha=0.7)
+    sns.scatterplot(data=overview_data_pd, x='time_ms', y='error', ax=axes[0], alpha=0.7)
     axes[0].set_title('Overview: Error Signal vs. Time')
     axes[0].set_xlabel('Time (ms)')
     axes[0].set_ylabel('Error Signal')
@@ -23,7 +23,7 @@ def create_plot(df_polars, zoom_x_start, width=11, height=5, y_zoom_limits=(-0.0
 
     # Plot 2: Zoomed-in Detail
     if not detail_data_pd.empty:
-        sns.scatterplot(data=detail_data_pd, x='time_ms', y='error_signal', ax=axes[1], alpha=0.7, color='blue')
+        sns.scatterplot(data=detail_data_pd, x='time_ms', y='error', ax=axes[1], alpha=0.7, color='blue')
         axes[1].set_title(f'Zoomed-in Detail (time_ms > {zoom_x_start})')
         axes[1].set_ylim(y_zoom_limits) # Apply zoom
         axes[1].yaxis.tick_right()
