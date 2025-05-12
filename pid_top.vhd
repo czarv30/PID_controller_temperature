@@ -10,7 +10,9 @@ entity pid_top is
            enable         : out STD_LOGIC;                       
            error_signal   : out signed(15 downto 0);    -- these three signals below are
            pterm_signal   : out signed(15 downto 0);    -- exposed in order to export the
-           current_signal : out signed(15 downto 0));   -- data at the testbench. 
+           current_signal : out signed(15 downto 0);
+           iterm_signal   : out signed(15 downto 0);
+           );   -- data at the testbench. 
 end pid_top;
 
 architecture Behavioral of pid_top is
@@ -18,8 +20,9 @@ architecture Behavioral of pid_top is
     -- signal pterm_signal : signed(15 downto 0);
     -- signal current_signal : signed(15 downto 0);
     -- signal enable : std_logic := '0';
-    signal counter : unsigned(16 downto 0) := (others => '0');
-    constant CLK_DIV : integer := 100000;
+    signal      counter     :   unsigned(16 downto 0) := (others => '0');
+    constant    CLK_DIV     :   integer := 100000;
+    signal      control_in  :   unsigned(16 downto 0) := (others => '0');
 begin
     process(clk, reset)
     begin
@@ -40,6 +43,9 @@ begin
         port map(target=>target, error=>error_signal,clk=>clk,reset=>reset,current=>current_signal, enable => enable);
     pid_pterm: entity work.pid_pterm(Behavioral)
         port map(error => error_signal, p_term => pterm_signal, led => led, clk => clk, reset => reset, enable => enable);
+    pid_iterm: entity work.pid_iterm(Behavioral)
+        port map(error_signal => error_signal, i_term => iterm_signal, clk => clk, reset => reset, enable => enable);
+    control_in <= pterm_signal+iterm_signal;
     plant: entity work.plant2(Behavioral)
         port map(reset=> reset, clk=>clk, temp_out=>current_signal, control_in => pterm_signal, enable => enable);
         

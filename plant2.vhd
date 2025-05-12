@@ -3,11 +3,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity plant2 is
-    Port ( reset : in STD_LOGIC;
-           clk : in STD_LOGIC;
-           temp_out : out signed(15 downto 0);
-           control_in : in signed(15 downto 0);
-           enable : in STD_LOGIC);
+    Port ( reset        : in STD_LOGIC;
+           clk          : in STD_LOGIC;
+           temp_out     : out signed(15 downto 0);
+           control_in   : in signed(15 downto 0);
+           enable       : in STD_LOGIC);
 end plant2;
 
 architecture Behavioral of plant2 is
