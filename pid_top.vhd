@@ -55,13 +55,37 @@ begin
     end process;
     
     error_calc: entity work.error_calc(Behavioral)
-        port map(target=>target, error=>error_signal,clk=>clk,reset=>reset,current=>current_signal, enable => enable);
+        port map(
+            target      =>target, 
+            error       =>error_signal,
+            clk         =>clk,
+            reset       =>reset,
+            current     =>current_signal, 
+            enable      => enable);
+            
     pid_pterm: entity work.pid_pterm(Behavioral)
-        port map(error => error_signal, p_term => pterm_signal, led => led, clk => clk, reset => reset, enable => enable);
+        port map(
+            error       => error_signal, 
+            p_term      => pterm_signal, 
+            led         => led, 
+            clk         => clk, 
+            reset       => reset, 
+            enable      => enable);
+            
     pid_iterm: entity work.pid_iterm(Behavioral)
-        port map(error_signal => error_signal, i_term => iterm_signal, clk => clk, reset => reset, enable => enable);
+        port map(
+            error_signal => error_signal, 
+            i_term       => iterm_signal, 
+            clk          => clk, 
+            reset        => reset, 
+            enable       => enable);
     plant: entity work.plant2(Behavioral)
-        port map(reset=> reset, clk=>clk, temp_out=>current_signal, control_in => control_in, enable => enable);
+        port map(
+            reset       => reset, 
+            clk         =>clk, 
+            temp_out    =>current_signal, 
+            control_in  => control_in, 
+            enable      => enable);
         
     enable_out  <= enable;
     error_out   <= error_signal;

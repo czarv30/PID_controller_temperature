@@ -19,7 +19,7 @@ architecture Behavioral of pid_top_tb is
     signal current_out    : signed(15 downto 0);
     signal control_out    : signed(15 downto 0);
 
-    constant CLK_PERIOD   : time := 10 ns; -- 100 MHz
+    constant CLK_PERIOD   : time := 10 ns;  -- 100 MHz
     constant SIM_DURATION : time := 500 ms; -- Extended for better observation
 
 begin
@@ -64,7 +64,7 @@ begin
     end process;
 
     log_proc: process
-        file file_handler : text open write_mode is "C:/prog/repos/PID_temperature_controller/data/sim_data_current.csv";
+        file file_handler : text open write_mode is "C:/prog/repos/PID_temperature_controller/data/sim_data_current_PI.csv";
         variable line_buffer : line;
         variable sim_time : time;
     begin

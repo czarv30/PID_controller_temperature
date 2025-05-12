@@ -13,7 +13,7 @@ end pid_pterm;
 
 architecture Behavioral of pid_pterm is
     signal p_reg : signed(15 downto 0)  ;
-    constant kp  : signed(15 downto 0) := to_signed(8,16) ;
+    constant kp  : signed(15 downto 0) := to_signed(32,16) ;
 begin
     process(clk, reset)
     begin
