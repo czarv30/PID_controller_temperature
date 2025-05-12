@@ -64,8 +64,7 @@ my_figure = dataplotter.create_plot(dfp,24,y_zoom_limits=(-0.02, 0.14))
 
 ## Phase 2: PI controller 
 
-We add pid_iterm.vhd, relevant code below and observe the impact.
-
+Relevant code below:
 ```vhdl
 process(clk, reset)
     variable    integral     :   signed(15 downto 0) := (others => '0');

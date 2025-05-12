@@ -25,10 +25,10 @@ begin
     uut: entity work.pid_top(Behavioral)
         port map (
             clk => clk, 
-            current_signal => current_signal, 
-            enable => enable, 
-            error_signal => error_signal, 
-            pterm_signal => pterm_signal,
+            current_out => current_signal, 
+            enable_out => enable, 
+            error_out => error_signal, 
+            p_out => pterm_signal,
             reset => reset, 
             target => target, 
             led => led
