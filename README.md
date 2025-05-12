@@ -90,5 +90,24 @@ end process;
 
 
 ```python
+import importlib, polars as pl, dataplotter
+importlib.reload(dataplotter) # dataplotter is a separate script I wrote to make the plots.  
+
+# Preprocess the data
+sim_data = r'C:\prog\repos\PID_temperature_controller\data\sim_data_current.csv'
+df = pl.read_csv(sim_data)
+dfp = df.with_columns(((pl.col('Time')*1e-9)*1e3).alias('time_ms'))
+
+my_figure = dataplotter.create_plot(dfp,24,y_zoom_limits=(-0.02, 0.14))
+```
+
+
+    
+![png](README_files/README_4_0.png)
+    
+
+
+
+```python
 
 ```
