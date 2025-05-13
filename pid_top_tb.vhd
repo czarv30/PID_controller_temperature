@@ -16,6 +16,7 @@ architecture Behavioral of pid_top_tb is
     signal error_out      : signed(15 downto 0);
     signal p_out          : signed(15 downto 0);
     signal i_out          : signed(15 downto 0);
+    signal d_out          : signed(15 downto 0);
     signal current_out    : signed(15 downto 0);
     signal control_out    : signed(15 downto 0);
 
@@ -33,6 +34,7 @@ begin
             error_out => error_out,
             p_out => p_out,
             i_out => i_out,
+            d_out => d_out,
             current_out => current_out,
             control_out => control_out
         );
@@ -64,7 +66,7 @@ begin
     end process;
 
     log_proc: process
-        file file_handler : text open write_mode is "C:/prog/repos/PID_temperature_controller/data/sim_data_current_PI.csv";
+        file file_handler : text open write_mode is "C:/prog/repos/PID_temperature_controller/data/sim_data_current_PID.csv";
         variable line_buffer : line;
         variable sim_time : time;
     begin

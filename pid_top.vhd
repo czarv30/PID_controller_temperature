@@ -8,23 +8,25 @@ entity pid_top is
            target               : in  STD_LOGIC_VECTOR (3 downto 0);
            led                  : out STD_LOGIC; 
            enable_out           : out STD_LOGIC;                       
-           error_out            : out signed(15 downto 0);    -- these three signals below are
-           p_out                : out signed(15 downto 0);    -- exposed in order to export the
+           error_out            : out signed(15 downto 0);
            current_out          : out signed(15 downto 0);
+           p_out                : out signed(15 downto 0);
            i_out                : out signed(15 downto 0);
+           d_out                : out signed(15 downto 0);
            control_out          : out signed(15 downto 0)
-           );   -- data at the testbench. 
+           );
 end pid_top;
 
 architecture Behavioral of pid_top is
     signal      error_signal    : signed(15 downto 0);
-    signal      pterm_signal    : signed(15 downto 0);
     signal      current_signal  : signed(15 downto 0);
     signal      enable          : std_logic := '0';
     signal      counter         : unsigned(16 downto 0) := (others => '0');
     constant    CLK_DIV         : integer := 100000;
     signal      control_in      : signed(15 downto 0);
+    signal      pterm_signal    : signed(15 downto 0);
     signal      iterm_signal    : signed(15 downto 0);
+    signal      dterm_signal    : signed(15 downto 0);
 begin
     process(clk, reset)
     begin
@@ -49,7 +51,7 @@ begin
         control_in <= (others => '0');
     elsif rising_edge(clk) then
         if enable = '1' then
-            control_in <= pterm_signal + iterm_signal;
+            control_in <= pterm_signal + iterm_signal + dterm_signal;
         end if;
     end if;
     end process;
@@ -79,6 +81,15 @@ begin
             clk          => clk, 
             reset        => reset, 
             enable       => enable);
+    
+    pid_dterm: entity work.pid_dterm(Behavioral)
+        port map(
+            error_signal => error_signal, 
+            d_term       => dterm_signal, 
+            clk          => clk, 
+            reset        => reset, 
+            enable       => enable);
+    
     plant: entity work.plant2(Behavioral)
         port map(
             reset       => reset, 

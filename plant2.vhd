@@ -25,10 +25,7 @@ architecture Behavioral of plant2 is
     
 begin
     process(clk, reset)
-        variable diff      : signed(15 downto 0);
         variable delta     : signed(15 downto 0);
-        variable prod      : signed(15 downto 0);
-        
         variable heat_gain      : signed(31 downto 0);
         variable heat_loss      : signed(31 downto 0);
         variable delta_unclamped : signed(15 downto 0);

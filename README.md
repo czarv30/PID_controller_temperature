@@ -38,16 +38,14 @@ graph LR
 ## Phase 1: P-only microcontroller. 
 We develop all the code to run a p-only controller. Signals are exposed at the top level to export signals to csv, plotted below.
 
-Set target to "0100" (4 in decimal). Kp = 0.125
+* target = "0100" (4 in decimal).
+* Kp = 0.125
 
 On the plot below, see the most obvious problem with a p-only controller -- a large steady-state error, in this case resulting from the built-in cooling rate in the plant.
 
 
 ```python
-import importlib, polars as pl, dataplotter
-importlib.reload(dataplotter) # dataplotter is a separate script I wrote to make the plots.  
-import seaborn as sns
-import matplotlib.pyplot as plt
+import importlib, polars as pl, seaborn as sns, matplotlib.pyplot as plt
 # Preprocess the data
 df = pl.read_csv(r'C:\prog\repos\PID_temperature_controller\data\sim_data_current.csv')
 dfp = df.with_columns(((pl.col('Time')*1e-9)*1e3).alias('time_ms')).filter( pl.col('time_ms')>1)
@@ -78,13 +76,39 @@ import matplotlib.pyplot as plt
 df = pl.read_csv(r'C:\prog\repos\PID_temperature_controller\data\sim_data_current_PI.csv')
 dfp = df.with_columns(((pl.col('Time')*1e-9)*1e3).alias('time_ms')).filter( pl.col('time_ms')>2)
 
-fig, ax = plt.subplots(figsize=(4, 3))
-_ = sns.scatterplot(dfp.filter( pl.col('time_ms')<40 ),x='time_ms',y='error',ax=ax)
+fig, ax = plt.subplots(figsize=(6, 3))
+_ = sns.scatterplot(dfp.filter( pl.col('time_ms')<50 ),x='time_ms',y='error',ax=ax)
 ```
 
 
     
 ![png](README_files/README_4_0.png)
+    
+
+
+## Phase 3: PID
+
+The oscillations seen above can be prevented with the addition of a control proportional to the derivative of the signal. 
+
+* Kd = 
+
+
+```python
+import importlib, polars as pl, dataplotter
+importlib.reload(dataplotter) # dataplotter is a separate script I wrote to make the plots.  
+import seaborn as sns
+import matplotlib.pyplot as plt
+# Preprocess the data
+df = pl.read_csv(r'C:\prog\repos\PID_temperature_controller\data\sim_data_current_PI.csv')
+dfp = df.with_columns(((pl.col('Time')*1e-9)*1e3).alias('time_ms')).filter( pl.col('time_ms')>2)
+
+fig, ax = plt.subplots(figsize=(6, 3))
+_ = sns.scatterplot(dfp.filter( pl.col('time_ms')<50 ),x='time_ms',y='error',ax=ax)
+```
+
+
+    
+![png](README_files/README_6_0.png)
     
 
 
