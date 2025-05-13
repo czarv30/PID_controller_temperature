@@ -12,7 +12,7 @@ end pid_iterm;
 
 architecture Behavioral of pid_iterm is
     signal      i_reg           :   signed(15 downto 0) := (others => '0');
-    constant    ki              :   signed(15 downto 0) := to_signed(16, 16); 
+    constant    ki              :   signed(15 downto 0) := to_signed(8, 16); 
     constant    INTEGRAL_MAX    :   signed(15 downto 0) := to_signed(32767, 16); -- 127.996 in Q8.8
     constant    INTEGRAL_MIN    :   signed(15 downto 0) := to_signed(-32768, 16); -- -128 in Q8.8
 begin

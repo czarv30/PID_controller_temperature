@@ -12,17 +12,16 @@ Port (      reset               : in    std_logic;
 end pid_dterm;
 
 architecture Behavioral of pid_dterm is
-    signal prev_error : SIGNED(15 downto 0) := (others => '0');
-    signal error_diff : SIGNED(15 downto 0);
-    signal d_term_reg : SIGNED(15 downto 0);
-    constant kd:  signed(15 downto 0) := to_signed(32,16);
+    signal      prev_error   : SIGNED(15 downto 0) := (others => '0');
+    signal      error_diff   : SIGNED(15 downto 0) := (others => '0');
+    signal      d_term_reg   : SIGNED(15 downto 0) := (others => '0');
+    constant    kd           : signed(15 downto 0) := to_signed(16,16);
 begin
     process(clk, reset)
     begin
     if reset = '1' then
         prev_error <= (others => '0');
         d_term_reg <= (others => '0');
-        -- d_term_mirror <= (others => '0');
     elsif rising_edge(clk) then
         if enable = '1' then
             error_diff <= error_signal - prev_error;

@@ -90,7 +90,12 @@ _ = sns.scatterplot(dfp.filter( pl.col('time_ms')<50 ),x='time_ms',y='error',ax=
 
 The oscillations seen above can be prevented with the addition of a control proportional to the derivative of the signal. 
 
-* Kd = 
+The configuration:
+* Kp = 32/256 = 0.125
+* Ki = 8/256 = 0.031
+* kd = 16/256 = 0.062
+
+results in the graph seen below. 
 
 
 ```python
@@ -99,7 +104,7 @@ importlib.reload(dataplotter) # dataplotter is a separate script I wrote to make
 import seaborn as sns
 import matplotlib.pyplot as plt
 # Preprocess the data
-df = pl.read_csv(r'C:\prog\repos\PID_temperature_controller\data\sim_data_current_PI.csv')
+df = pl.read_csv(r'C:\prog\repos\PID_temperature_controller\data\sim_data_current_PID.csv')
 dfp = df.with_columns(((pl.col('Time')*1e-9)*1e3).alias('time_ms')).filter( pl.col('time_ms')>2)
 
 fig, ax = plt.subplots(figsize=(6, 3))
@@ -111,8 +116,3 @@ _ = sns.scatterplot(dfp.filter( pl.col('time_ms')<50 ),x='time_ms',y='error',ax=
 ![png](README_files/README_6_0.png)
     
 
-
-
-```python
-
-```

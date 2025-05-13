@@ -101,8 +101,9 @@ begin
     enable_out  <= enable;
     error_out   <= error_signal;
     current_out <= current_signal;
-    i_out       <= iterm_signal;
     p_out       <= pterm_signal;
+    i_out       <= iterm_signal;
+    d_out       <= dterm_signal;
     control_out <= control_in;
         
 end Behavioral;
